@@ -1,0 +1,19 @@
+semantic_evaluation_task:
+  description: |
+    Verify the uploaded User Document against the Policy Document using iterative retrieval and evaluation.
+    Process:
+    For each retrieved policy requirement:
+    1. Retrieve the authoritative policy text.
+    2. Retrieve the matching user-document evidence.
+    3. Produce one SemanticFinding.
+    Return ONLY ONE SemanticFinding in findings[]. Do not verify another requirement.
+    Constraints:
+    - Each policy requirement must be evaluated at most once.
+    - Do not skip relevant requirements.
+    - Maintain an internal list of evaluated requirements to avoid duplication.
+    - Continue until no new relevant policy requirements can be retrieved.
+  expected_output: >
+    A valid JSON object matching ComplianceReportSchema with:
+    - a list of SemanticFindings (one per requirement)
+    - a ComplianceSummary derived from all findings
+    Respond ONLY in valid JSON. Do not include any explanatory text.
