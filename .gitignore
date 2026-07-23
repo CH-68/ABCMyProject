@@ -48,4 +48,4 @@ env/
 temp_storage/
 .pytest_cache/
 
-requirements.txt
+#requirements.txt

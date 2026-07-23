@@ -1,0 +1,21 @@
+python-dotenv 
+chromadb
+nest_asyncio
+crewai 
+crewai-tools 
+numpy
+openai
+pypdf
+python-docx
+pandas
+openpyxl
+streamlit # added
+python-docx
+tiktoken
+langchain
+langchain-core # added
+langchain_chroma # added 
+langchain-experimental
+langchain-community  # added
+langchain-text-splitters
+lolviz
