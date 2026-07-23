@@ -1,5 +1,5 @@
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import tempfile
 import traceback
 from typing import Any, Sequence
@@ -21,13 +21,12 @@ from src.crew import ComplianceCrew
 # Setup
 # ----------------------------
 
-if load_dotenv('.env'):
-    # for local development
-    OPENAI_KEY = os.getenv('OPENAI_API_KEY')
-else:
-    OPENAI_KEY = st.secrets['OPENAI_API_KEY']
+# if load_dotenv('.env'):
+#     # for local development
+#     OPENAI_KEY = os.getenv('OPENAI_API_KEY')
+# else:
+OPENAI_KEY = st.secrets['OPENAI_API_KEY']
 client = OpenAI(api_key=OPENAI_KEY)
-
 os.environ["CREWAI_TRACING"] = "true"
 
 def normalize_uploaded_files(uploaded_files: Any) -> list[Any]:
