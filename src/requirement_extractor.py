@@ -1,17 +1,17 @@
 import os
 import streamlit as st
 import json
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 from typing import Any
 from langchain_community.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings
 from openai import OpenAI
 
-if load_dotenv('.env'):
-    # for local development
-    OPENAI_KEY = os.getenv('OPENAI_API_KEY')
-else:
-    OPENAI_KEY = st.secrets['OPENAI_API_KEY']
+# if load_dotenv('.env'):
+#     # for local development
+#     OPENAI_KEY = os.getenv('OPENAI_API_KEY')
+# else:
+OPENAI_KEY = st.secrets['OPENAI_API_KEY']
 client = OpenAI(api_key=OPENAI_KEY)
 
 def extract_policy_requirements(

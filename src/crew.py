@@ -28,7 +28,7 @@ class ComplianceCrew:
         return Task(
             config=self.tasks_config["semantic_evaluation_task"],
             agent=self.semantic_evaluator(),
-            output_pydantic=ComplianceReportSchema,
+            output_pydantic=SemanticFinding,
         )
 
     @crew

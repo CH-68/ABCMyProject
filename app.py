@@ -278,20 +278,18 @@ with st.sidebar:
                     for requirement in st.session_state.policy_requirements:
                         finding = crew_instance.verify_requirement(requirement)                
                         if finding:
-                            findings.extend(finding.findings)
+                            findings.append(finding)
 
                     # Example Summary calculation based on findings
                     passed_count = sum(1 for f in findings if getattr(f, "verification", "") == "passed")
                     failed_count = sum(1 for f in findings if getattr(f, "verification", "") == "failed")
                     deviated_count = sum(1 for f in findings if getattr(f, "verification", "") == "deviated")
-                    unknown_count = sum(1 for f in findings if getattr(f, "verification", "") == "unknown")
                     
                     summary = ComplianceSummary(
                         total_requirements=len(st.session_state.policy_requirements),
                         passed=passed_count,
                         failed=failed_count,
                         deviated=deviated_count,
-                        unknown=unknown_count
                     )
                     
                     report = ComplianceReportSchema(
@@ -313,7 +311,7 @@ compliance_report = st.session_state.get("compliance_report")
 if compliance_report:
     st.subheader("Verification Summary")
     summary = compliance_report.summary
-    col1, col2, col3, col4, col5 = st.columns(5)
+    col1, col2, col3, col4 = st.columns(4)
     with col1:
         st.metric("Requirements", summary.total_requirements)
     with col2:
@@ -322,21 +320,21 @@ if compliance_report:
         st.metric("Deviated", summary.deviated)
     with col4:
         st.metric("Failed", summary.failed)
-    with col5:
-        st.metric("Unknown", summary.unknown)
 
     st.subheader("Verification Findings")
     findings = [
         finding
         for finding in compliance_report.findings
-        if finding.verification in ("deviated", "failed","unknown")
+        if finding.verification in ("passed","deviated", "failed",)
     ]
+    st.write("Raw findings collected:", findings) # temporary debug check
+
 
     if findings:
         findings_df = pd.DataFrame([f.model_dump() for f in findings])
         st.dataframe(
             findings_df,
-            use_container_width=True,
+            width='content',
             hide_index=True,
         )
     else:
@@ -386,10 +384,9 @@ if user_input:
                 {
                     "role": "system",
                     "content": """
-                    You are a compliance assistant.
-                    Answer only using the supplied policy and user document context.
-                    Make cross reference to Compliance Report and elaborate or explain in more details.
-                    If the answer cannot be found, say so explicitly.
+                    You are a compliance assistant. Be concise and compliance focused
+                    Answer only using Compliance Report and elaborate or explain in more details using Policy Document and User Document.
+                    Cite policy and user document evience. If the answer cannot be found, say so explicitly. 
                     """
                 },
                 {
